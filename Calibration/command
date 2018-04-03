@@ -1,0 +1,7 @@
+python exampleCalib.py -bv -f fishEye --quiet --write --crop
+
+python exampleCalib.py -v --folder=flight --startFrame=230 --quiet --crop --mask --rotate --saveTime --savevid --images
+
+python exampleCalib.py -vb --folder=newCalib --startFrame=1 --subFrames=10 --quiet --write --crop --mask --rotate --savevid
+
+python exampleCalib.py -vb --folder=newSmolCalib --startFrame=1 --subFrames=10 --quiet --write --crop --mask --rotate --savevid --resize
