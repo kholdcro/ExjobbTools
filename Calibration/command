@@ -5,3 +5,5 @@ python exampleCalib.py -v --folder=flight --startFrame=230 --quiet --crop --mask
 python exampleCalib.py -vb --folder=newCalib --startFrame=1 --subFrames=10 --quiet --write --crop --mask --rotate --savevid
 
 python exampleCalib.py -vb --folder=newSmolCalib --startFrame=1 --subFrames=10 --quiet --write --crop --mask --rotate --savevid --resize
+
+python exampleCalib.py -vb --folder=bigCalib --startFrame=30 --subFrames=10 --quiet --write --crop --rotate --savevid --resize --pseudoSmall --images --example --fisheye

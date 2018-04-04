@@ -1,6 +1,7 @@
 import sys, time
 import numpy as np
 import cv2
+assert cv2.__version__[0] == '3', 'The fisheye module requires opencv version >= 3.0.0'
 import glob
 from optparse import OptionParser
 
@@ -52,19 +53,41 @@ def main():
                   help="choose frame to start on", type="int", default=0)
   parser.add_option("--subFrames", dest="subsampleFrames",
                   help="choose every x frames to evaluate", type="int", default=1)
+  parser.add_option("--right",
+                  action="store_true", dest="rightImage", default=False,
+                  help="Uses right fisheye")
+  parser.add_option("-p", "--pseudoSmall",
+                  action="store_true", dest="pseudoSmall", default=False,
+                  help="Remaps fisheye to smaller FOV")
+  parser.add_option("--verify",
+                  action="store_true", dest="verify", default=False,
+                  help="Use user input to verify checkerboard")
+  parser.add_option("--fisheye",
+                  action="store_true", dest="fisheye", default=False,
+                  help="Use fisheye calibration method")
   (options, args) = parser.parse_args()
 
 
   # checkerboard Dimensions
-  cbDims = (8,6)
+  # cbDims = (8,6)
+  # squareSize = 0.022
+
+  cbDims = (6,7)
+  squareSize = 0.12
     
   # termination criteria
+  # criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
   criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
+  calibration_flags = cv2.fisheye.CALIB_RECOMPUTE_EXTRINSIC+cv2.fisheye.CALIB_CHECK_COND+cv2.fisheye.CALIB_FIX_SKEW
+  # calibration_flags = cv2.fisheye.CALIB_RECOMPUTE_EXTRINSIC+cv2.fisheye.CALIB_FIX_SKEW
+  # calibration_flags = cv2.fisheye.CALIB_RECOMPUTE_EXTRINSIC+cv2.fisheye.CALIB_FIX_SKEW+cv2.CALIB_USE_INTRINSIC_GUESS
 
   # prepare object points, like (0,0,0), (1,0,0), (2,0,0) ....,(6,5,0)
-  objp = np.zeros((cbDims[0]*cbDims[1],3), np.float32)
-  objp[:,:2] = np.mgrid[0:cbDims[1],0:cbDims[0]].T.reshape(-1,2)
+  # objp = np.zeros((cbDims[0]*cbDims[1],3), np.float32)
+  # objp[:,:2] = np.mgrid[0:cbDims[1],0:cbDims[0]].T.reshape(-1,2)
 
+  objp = np.zeros((1, cbDims[0]*cbDims[1], 3), np.float32)
+  objp[0,:,:2] = np.mgrid[0:cbDims[0], 0:cbDims[1]].T.reshape(-1, 2)
 
   if(options.videoInput):
     # objpoints, imgpoints, size = calibVideo(folder, cbDims, verbose, start, 
@@ -77,9 +100,20 @@ def main():
     if len(objpoints) == 0:
       print("Did not find any corners")
       return
+    print("{} Images Found".format(np.sum(checkFound)))
 
-    print "\nCalibrating...",
-    ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, size,None,None)
+    print "\nCalibrating...",        
+    if(options.fisheye):
+      N_OK = len(objpoints)
+      K = np.eye(3)
+      D = np.zeros((4, 1))
+      rvecs = [np.zeros((1, 1, 3), dtype=np.float64) for i in range(N_OK)]
+      tvecs = [np.zeros((1, 1, 3), dtype=np.float64) for i in range(N_OK)]
+
+      ret, mtx, dist, rvecs, tvecs = cv2.fisheye.calibrate(objpoints, imgpoints, size,K,D,rvecs, tvecs, \
+                calibration_flags, (cv2.TERM_CRITERIA_EPS+cv2.TERM_CRITERIA_MAX_ITER, 30, 1e-6))
+    else:
+      ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, size,None,None)
     print "Done!\n"
 
     print("Camera Matrix:")
@@ -99,17 +133,17 @@ def main():
     print("Total Error:\t"+ str(round(total_error,4)))
 
     if(options.writeFile):
-      writeToFile(options.folder, ret, mtx, dist, total_error, mean_error)
+      writeToFile(options, ret, mtx, dist, total_error, mean_error)
     if(options.showExample):
       if(options.videoInput):
         k = 0
         for i, j in enumerate(checkFound):
           if j:
             print "Undistorting image: " + str(i)
-            dispExample(options.folder, mtx, dist, "image", i, imgpoints[k], cbDims)
+            dispExample(options, mtx, dist, "image", i, imgpoints[k], cbDims)
             k += 1
       else:
-        dispExample(options.folder, mtx, dist, "left")
+        dispExample(options, mtx, dist, "left")
 
   cv2.destroyAllWindows()
   print("\nTotal Time:\t" + str(round(time.time()-start,3)))
@@ -137,7 +171,7 @@ def calibVideo(cbDims, start, criteria, objp, opt):
     sys.exit()
 
   whalf = width
-  if opt.halfImg:
+  if opt.halfImg or opt.rightImage:
     whalf = int(round(width/2))
 
   twidth = whalf
@@ -147,12 +181,11 @@ def calibVideo(cbDims, start, criteria, objp, opt):
     twidth /= 2
     theight /= 2
 
-  print(width)
-  print(whalf)
-  print(twidth, theight)
-
   if opt.rotateImage:
-    M = cv2.getRotationMatrix2D((twidth/2,theight/2),-90,1)
+    if(opt.rightImage):
+      M = cv2.getRotationMatrix2D((twidth/2,theight/2),90,1)
+    else:
+      M = cv2.getRotationMatrix2D((twidth/2,theight/2),-90,1)
 
   # print twidth, width
 
@@ -193,13 +226,36 @@ def calibVideo(cbDims, start, criteria, objp, opt):
       img = img[0:height, 0:whalf]
       # img = img[0:height, whalf:2*whalf]
     
+    if opt.rightImage:
+      img = img[0:height, whalf:2*whalf]
+
     if opt.resize:
       img = cv2.resize(img, (twidth, theight))
 
     if opt.rotateImage:
       img = cv2.warpAffine(img,M,(theight,twidth))
 
+
     grey = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+
+    if opt.pseudoSmall:
+      center = grey.shape[0]/2
+      quarter = center/2
+      grey = grey[quarter:center+quarter, quarter:center+quarter]
+      img = img[quarter:center+quarter, quarter:center+quarter]
+      xx = np.linspace(grey.shape[0]/2,-grey.shape[0]/2, num=grey.shape[0])
+      xx = 2*xx/grey.shape[0]
+      yy = np.linspace(grey.shape[1]/2,-grey.shape[1]/2, num=grey.shape[1])
+      yy = 2*yy/grey.shape[1]
+
+      # print(xx.shape)
+      # print(grey.shape)
+      # print(np.max(xx),np.min(xx))
+      for ii, x in enumerate(xx):
+        for j, y in enumerate(yy):
+          if x**2+y**2 > 1:
+            # print(ii, x)
+            grey[ii,j] = 0
 
     if opt.maskImage:
       grey= cv2.bitwise_and(grey,grey,mask = mask)
@@ -208,20 +264,20 @@ def calibVideo(cbDims, start, criteria, objp, opt):
       out.write(grey)
 
     if opt.saveImages:
-      print(grey.shape)
       cv2.imwrite("{}/images/image{:d}.jpg".format(opt.folder,numFrames), grey);
 
     if opt.calib:
-      objpoints, imgpoints, ret = calibrate(img, grey, objpoints, 
-                                          objp, imgpoints, criteria, cbDims, opt.verbose)
-      checkFound.append(ret)
-      print("Time per frame: {:.3f}\t | checkerBoardFound: {""}\t | Total Time: {:.4f}\t | Frame: {:d}"
-                                .format(time.time()-iterTime,ret,time.time()-start,i))
+      objpoints, imgpoints, checkFound = calibrate(img, grey, objpoints, 
+                                          objp, imgpoints, criteria, cbDims, opt.verbose, opt.verify, checkFound)
+      print("Time per frame: {:.3f}\t | checkerBoardFound: {""}\t | Total Time: {:.4f}\t | Frame: {:d}\t | Image: {:d}"
+                                .format(time.time()-iterTime,checkFound[-1],time.time()-start,i,numFrames))
     else:
       print("Time per frame: {:.3f}\t | Total Time: {:.4f}\t | Frame: {:d}"
                                   .format(time.time()-iterTime,time.time()-start,i))
+    imgSize = grey.shape[::-1]
     i += 1
     numFrames += 1
+
 
   vidcap.release()
   if opt.saveVid:
@@ -233,7 +289,7 @@ def calibVideo(cbDims, start, criteria, objp, opt):
       for i in range(numFrames):
         f.write("{:e}\n".format(timestep*i))
 
-  return objpoints, imgpoints, (height,whalf), checkFound
+  return objpoints, imgpoints, grey.shape[::-1], checkFound
 
 
 
@@ -258,29 +314,47 @@ def calibImages(folder, cbDims, verbose, start, criteria, objp):
   return objpoints, imgpoints, grey.shape[::-1]
 
 
-def calibrate(img, grey, objpoints, objp, imgpoints, criteria, cbDims, verbose):
+def calibrate(img, grey, objpoints, objp, imgpoints, criteria, cbDims, verbose, verify, checkFound):
   
   # Find the chess board corners
-  ret, corners = cv2.findChessboardCorners(grey, (8,6),None)
+  ret, corners = cv2.findChessboardCorners(grey, cbDims,None)
 
   # If found, add object points, image points (after refining them)
   if ret == True:
-      objpoints.append(objp)
-
       cv2.cornerSubPix(grey,corners,(11,11),(-1,-1),criteria)
-      imgpoints.append(corners)
-
-      # Draw and display the corners
-      if(verbose):
+            # Draw and display the corners
+      if(verify):
+        cv2.drawChessboardCorners(img, (cbDims[0],cbDims[1]), corners,ret)
+        print("Please press \'y\' to verify corners")
+        cv2.imshow('img',img)
+        # while True:
+        k = cv2.waitKey(0)
+          # if(k !=-1):
+          #   break
+        if k == ord('y'):
+          objpoints.append(objp)
+          imgpoints.append(corners)
+        elif k == ord('q'):
+          sys.exit(0)
+        else:
+          ret = False
+          print("Rejected Image!")
+        checkFound.append(ret)
+        return objpoints, imgpoints, checkFound
+      elif(verbose):
         cv2.drawChessboardCorners(img, (cbDims[0],cbDims[1]), corners,ret)
         cv2.imshow('img',img)
         cv2.waitKey(500)
 
-  return objpoints, imgpoints, ret
+      objpoints.append(objp)
+      imgpoints.append(corners)
+
+  checkFound.append(ret)
+  return objpoints, imgpoints, checkFound
 
 
-def writeToFile(folder, ret, mtx, dist, total_error, mean_error):
-  with open(folder+"/calib_results.txt", "w") as f: 
+def writeToFile(options, ret, mtx, dist, total_error, mean_error):
+  with open(options.folder+"/calib_results.txt", "w") as f: 
     f.write("RMS Error:  \t" + str(round(ret,4)) + "\n")
     f.write("Mean Error: \t" + str(round(mean_error,4)) + "\n")
     f.write("Total Error:\t" + str(round(total_error,4)) + "\n\n")
@@ -289,50 +363,67 @@ def writeToFile(folder, ret, mtx, dist, total_error, mean_error):
     f.write("\nDistortion Parameters:\n")
     np.savetxt(f, dist, fmt='%.6f')
 
-  with open(folder+"/calib_yaml.txt", "w") as f:
+  with open(options.folder+"/calib_yaml.txt", "w") as f:
     f.write("Camera.fx: {:.6f}\n".format(mtx[0,0]))
     f.write("Camera.fy: {:.6f}\n".format(mtx[1,1]))
     f.write("Camera.cx: {:.6f}\n".format(mtx[0,2]))
     f.write("Camera.cy: {:.6f}\n\n".format(mtx[1,2]))
 
-    f.write("Camera.k1: {:.6f}\n".format(dist[0,0]))
-    f.write("Camera.k2: {:.6f}\n".format(dist[0,1]))
-    f.write("Camera.p1: {:.6f}\n".format(dist[0,2]))
-    f.write("Camera.p2: {:.6f}\n".format(dist[0,3]))
-    f.write("Camera.k3: {:.6f}".format(dist[0,4]))
+    if(options.fisheye):
+      f.write("Camera.k1: {:.6f}\n".format(dist[0,0]))
+      f.write("Camera.k2: {:.6f}\n".format(dist[1,0]))
+      f.write("Camera.p1: {:.6f}\n".format(dist[2,0]))
+      f.write("Camera.p2: {:.6f}\n".format(dist[3,0]))
+      f.write("Camera.k3: {:.6f}".format(0.))
+    else:
+      f.write("Camera.k1: {:.6f}\n".format(dist[0,0]))
+      f.write("Camera.k2: {:.6f}\n".format(dist[0,1]))
+      f.write("Camera.p1: {:.6f}\n".format(dist[0,2]))
+      f.write("Camera.p2: {:.6f}\n".format(dist[0,3]))
+      f.write("Camera.k3: {:.6f}".format(dist[0,4]))
 
 
-def dispExample(folder, mtx, dist, name,i, corners, cbDims):
-  img = cv2.imread(folder+'/images/'+name+str(i)+'.jpg', cv2.IMREAD_COLOR)
-
+def dispExample(opt, mtx, dist, name,i, corners, cbDims):
+  img = cv2.imread(opt.folder+'/images/'+name+str(i)+'.jpg', cv2.IMREAD_COLOR)
   h,  w = img.shape[:2]
   
   cv2.drawChessboardCorners(img, (cbDims[0],cbDims[1]), corners,True)
+
+  if(opt.fisheye):
+    nmtx = mtx.copy()
+
+    map1, map2 = cv2.fisheye.initUndistortRectifyMap(mtx, dist, np.eye(3), mtx, (w,h), cv2.CV_16SC2)
+    undistorted_img = cv2.remap(img, map1, map2, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
+
+    cv2.imwrite(opt.folder+'/undistorted/_calibresult'+str(i)+'.jpg',undistorted_img)
+    cv2.waitKey(50)
+    return  
 
   newcameramtx, roi=cv2.getOptimalNewCameraMatrix(mtx,dist,(w,h),1,(w,h))
 
   # undistort
   dst = cv2.undistort(img, mtx, dist, None, newcameramtx)
-  # print dst.shape
   # crop the image
-  x,y,w,h = roi
-  dst = dst[y:y+h, x:x+w]
-  print dst.shape
-  cv2.imwrite(folder+'/undistorted/_calibresult'+str(i)+'.jpg',dst)
+  # x,y,w,h = roi
+  # dst = dst[y:y+h, x:x+w]
+
+  cv2.imwrite(opt.folder+'/undistorted/_calibresult'+str(i)+'.jpg',dst)
   cv2.waitKey(500)
   # print dst.shape
 
   # # undistort
   # mapx,mapy = cv2.initUndistortRectifyMap(mtx,dist,None,newcameramtx,(w,h),5)
   mapx,mapy = cv2.initUndistortRectifyMap(mtx,dist,None,newcameramtx,(w,h),cv2.CV_32F)
-  print mapx
-  print mapy
+  if(mapx is None or mapy is None):
+    print("Error - mapping is None")
+    return
   dst = cv2.remap(img,mapx,mapy,cv2.INTER_LINEAR)
 
   # # crop the image
-  x,y,w,h = roi
-  dst = dst[y:y+h, x:x+w]
-  cv2.imwrite(folder+'/undistorted/calibresult'+str(i)+'.jpg',dst)
+  # x,y,w,h = roi
+  # dst = dst[y:y+h, x:x+w]
+  cv2.imwrite(opt.folder+'/undistorted/calibresult'+str(i)+'.jpg',dst)
+  cv2.waitKey(50)
 
 
 if __name__ == "__main__":
