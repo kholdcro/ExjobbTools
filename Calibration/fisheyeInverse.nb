@@ -1,0 +1,950 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     39734,        942]
+NotebookOptionsPosition[     38947,        912]
+NotebookOutlinePosition[     39295,        927]
+CellTagsIndexPosition[     39252,        924]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{"ClearSystemCache", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Clear", "[", 
+   RowBox[{
+   "a", ",", "b", ",", "r", ",", "t", ",", "j", ",", "k", ",", "l", ",", "m", 
+    ",", "n", ",", "p", ",", "q", ",", "u", ",", "v", ",", "f", ",", "g", ",",
+     "c", ",", "d"}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Clear", "[", 
+   RowBox[{
+   "eq1", ",", "eq2", ",", " ", "eq3", ",", " ", "eq4", ",", "eq5", ",", " ", 
+    "eq6", ",", " ", "eq7", ",", " ", "eq8", ",", " ", "eq9", ",", " ", 
+    "eq10", ",", " ", "eq11", ",", " ", "eq12", ",", " ", "eq13", " ", ",", 
+    " ", "eq14", ",", " ", "eq15", ",", " ", "eq16", ",", " ", "eq17", ",", 
+    " ", "eq18", ",", " ", "eq19"}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.732875382025709*^9, 3.732875383222372*^9}, {
+  3.732876958592099*^9, 3.7328770271098766`*^9}, {3.7328771104915533`*^9, 
+  3.732877146778307*^9}, {3.732877401910331*^9, 3.7328774027184954`*^9}, {
+  3.7328780277422113`*^9, 3.7328780466748266`*^9}, {3.732878149730543*^9, 
+  3.7328781547136803`*^9}, {3.7328784496814885`*^9, 3.7328784511335144`*^9}, {
+  3.732878683817391*^9, 3.732878686435751*^9}, {3.732879156246435*^9, 
+  3.732879162933796*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"eq1", " ", "=", " ", 
+   RowBox[{"r", " ", "==", " ", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"a", "^", "2"}], "+", 
+       RowBox[{"b", "^", "2"}]}], ")"}], "^", 
+     RowBox[{"(", 
+      RowBox[{"1", "/", "2"}], ")"}]}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"eq2", " ", "=", " ", 
+   RowBox[{"t", " ", "==", " ", 
+    RowBox[{"arctan", 
+     RowBox[{"(", "r", ")"}]}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"eq3", " ", "=", " ", 
+   RowBox[{"j", " ", "==", " ", 
+    RowBox[{"t", 
+     RowBox[{"(", 
+      RowBox[{"1", "+", 
+       RowBox[{"k", "*", 
+        RowBox[{"t", "^", "2"}]}], "+", 
+       RowBox[{"l", "*", 
+        RowBox[{"t", "^", "4"}]}], "+", 
+       RowBox[{"m", "*", 
+        RowBox[{"t", "^", "6"}]}], "+", 
+       RowBox[{"n", "*", 
+        RowBox[{"t", "^", "8"}]}]}], ")"}]}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"eq4", " ", "=", " ", 
+   RowBox[{"p", " ", "==", " ", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{"j", "/", "r"}], ")"}], "*", "a"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"eq5", " ", "=", " ", 
+   RowBox[{"q", " ", "==", " ", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{"j", "/", "r"}], ")"}], "*", "b"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"eq6", " ", "=", " ", 
+   RowBox[{"u", " ", "==", " ", 
+    RowBox[{
+     RowBox[{"f", "*", "p"}], " ", "+", "c"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"eq7", " ", "=", " ", 
+   RowBox[{"v", " ", "==", 
+    RowBox[{
+     RowBox[{"g", "*", "q"}], " ", "+", " ", "d"}]}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.7328753921162853`*^9, 3.7328755037596407`*^9}, {
+   3.732875632592106*^9, 3.7328756843311453`*^9}, {3.732875774881527*^9, 
+   3.732875830140507*^9}, {3.7328758785357533`*^9, 3.732875883167894*^9}, {
+   3.732876125132786*^9, 3.7328761683303137`*^9}, {3.732876222077694*^9, 
+   3.732876248209962*^9}, {3.732877039633075*^9, 3.7328771054568853`*^9}, {
+   3.73287714974299*^9, 3.7328771504534926`*^9}, 3.7328773491828165`*^9, {
+   3.732877554818267*^9, 3.7328775575492463`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"eq8", " ", "=", " ", 
+     RowBox[{"Eliminate", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"eq2", ",", "eq3"}], "}"}], ",", "t"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"eq9", " ", "=", " ", 
+     RowBox[{"Eliminate", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"eq8", ",", "eq4"}], "}"}], ",", "j"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"eq10", " ", "=", " ", 
+     RowBox[{"Eliminate", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"eq9", ",", "eq6"}], "}"}], ",", "p"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"eq11", " ", "=", " ", 
+    RowBox[{"Eliminate", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"eq10", ",", "eq1"}], "}"}], ",", " ", "r"}], "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"eq12", " ", "=", " ", 
+     RowBox[{"Eliminate", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"eq8", ",", "eq5"}], "}"}], ",", "j"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"eq13", " ", "=", " ", 
+     RowBox[{"Eliminate", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"eq12", ",", "eq7"}], "}"}], ",", "q"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"eq14", " ", "=", " ", 
+    RowBox[{"Eliminate", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"eq13", ",", "eq1"}], "}"}], ",", "r"}], "]"}]}]}]}]], "Input",
+ CellChangeTimes->{{3.7328775038427763`*^9, 3.7328775457738404`*^9}, {
+   3.7328775854148273`*^9, 3.732877853569583*^9}, {3.7328779075653267`*^9, 
+   3.7328780227705097`*^9}, 3.7328786941134167`*^9, {3.732880484867586*^9, 
+   3.7328805058791046`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"c", "\[Equal]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", "a"}], " ", "arctan", " ", "f"}], "-", 
+    RowBox[{
+     SuperscriptBox["a", "3"], " ", 
+     SuperscriptBox["arctan", "3"], " ", "f", " ", "k"}], "-", 
+    RowBox[{"a", " ", 
+     SuperscriptBox["arctan", "3"], " ", 
+     SuperscriptBox["b", "2"], " ", "f", " ", "k"}], "-", 
+    RowBox[{
+     SuperscriptBox["a", "5"], " ", 
+     SuperscriptBox["arctan", "5"], " ", "f", " ", "l"}], "-", 
+    RowBox[{"2", " ", 
+     SuperscriptBox["a", "3"], " ", 
+     SuperscriptBox["arctan", "5"], " ", 
+     SuperscriptBox["b", "2"], " ", "f", " ", "l"}], "-", 
+    RowBox[{"a", " ", 
+     SuperscriptBox["arctan", "5"], " ", 
+     SuperscriptBox["b", "4"], " ", "f", " ", "l"}], "-", 
+    RowBox[{
+     SuperscriptBox["a", "7"], " ", 
+     SuperscriptBox["arctan", "7"], " ", "f", " ", "m"}], "-", 
+    RowBox[{"3", " ", 
+     SuperscriptBox["a", "5"], " ", 
+     SuperscriptBox["arctan", "7"], " ", 
+     SuperscriptBox["b", "2"], " ", "f", " ", "m"}], "-", 
+    RowBox[{"3", " ", 
+     SuperscriptBox["a", "3"], " ", 
+     SuperscriptBox["arctan", "7"], " ", 
+     SuperscriptBox["b", "4"], " ", "f", " ", "m"}], "-", 
+    RowBox[{"a", " ", 
+     SuperscriptBox["arctan", "7"], " ", 
+     SuperscriptBox["b", "6"], " ", "f", " ", "m"}], "-", 
+    RowBox[{
+     SuperscriptBox["a", "9"], " ", 
+     SuperscriptBox["arctan", "9"], " ", "f", " ", "n"}], "-", 
+    RowBox[{"4", " ", 
+     SuperscriptBox["a", "7"], " ", 
+     SuperscriptBox["arctan", "9"], " ", 
+     SuperscriptBox["b", "2"], " ", "f", " ", "n"}], "-", 
+    RowBox[{"6", " ", 
+     SuperscriptBox["a", "5"], " ", 
+     SuperscriptBox["arctan", "9"], " ", 
+     SuperscriptBox["b", "4"], " ", "f", " ", "n"}], "-", 
+    RowBox[{"4", " ", 
+     SuperscriptBox["a", "3"], " ", 
+     SuperscriptBox["arctan", "9"], " ", 
+     SuperscriptBox["b", "6"], " ", "f", " ", "n"}], "-", 
+    RowBox[{"a", " ", 
+     SuperscriptBox["arctan", "9"], " ", 
+     SuperscriptBox["b", "8"], " ", "f", " ", "n"}], "+", "u"}]}], "&&", 
+  RowBox[{
+   RowBox[{
+    SuperscriptBox["a", "2"], "+", 
+    SuperscriptBox["b", "2"]}], "\[NotEqual]", "0"}]}]], "Output",
+ CellChangeTimes->{{3.732880485302213*^9, 3.732880506210868*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"d", "\[Equal]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", "arctan"}], " ", "b", " ", "g"}], "-", 
+    RowBox[{
+     SuperscriptBox["a", "2"], " ", 
+     SuperscriptBox["arctan", "3"], " ", "b", " ", "g", " ", "k"}], "-", 
+    RowBox[{
+     SuperscriptBox["arctan", "3"], " ", 
+     SuperscriptBox["b", "3"], " ", "g", " ", "k"}], "-", 
+    RowBox[{
+     SuperscriptBox["a", "4"], " ", 
+     SuperscriptBox["arctan", "5"], " ", "b", " ", "g", " ", "l"}], "-", 
+    RowBox[{"2", " ", 
+     SuperscriptBox["a", "2"], " ", 
+     SuperscriptBox["arctan", "5"], " ", 
+     SuperscriptBox["b", "3"], " ", "g", " ", "l"}], "-", 
+    RowBox[{
+     SuperscriptBox["arctan", "5"], " ", 
+     SuperscriptBox["b", "5"], " ", "g", " ", "l"}], "-", 
+    RowBox[{
+     SuperscriptBox["a", "6"], " ", 
+     SuperscriptBox["arctan", "7"], " ", "b", " ", "g", " ", "m"}], "-", 
+    RowBox[{"3", " ", 
+     SuperscriptBox["a", "4"], " ", 
+     SuperscriptBox["arctan", "7"], " ", 
+     SuperscriptBox["b", "3"], " ", "g", " ", "m"}], "-", 
+    RowBox[{"3", " ", 
+     SuperscriptBox["a", "2"], " ", 
+     SuperscriptBox["arctan", "7"], " ", 
+     SuperscriptBox["b", "5"], " ", "g", " ", "m"}], "-", 
+    RowBox[{
+     SuperscriptBox["arctan", "7"], " ", 
+     SuperscriptBox["b", "7"], " ", "g", " ", "m"}], "-", 
+    RowBox[{
+     SuperscriptBox["a", "8"], " ", 
+     SuperscriptBox["arctan", "9"], " ", "b", " ", "g", " ", "n"}], "-", 
+    RowBox[{"4", " ", 
+     SuperscriptBox["a", "6"], " ", 
+     SuperscriptBox["arctan", "9"], " ", 
+     SuperscriptBox["b", "3"], " ", "g", " ", "n"}], "-", 
+    RowBox[{"6", " ", 
+     SuperscriptBox["a", "4"], " ", 
+     SuperscriptBox["arctan", "9"], " ", 
+     SuperscriptBox["b", "5"], " ", "g", " ", "n"}], "-", 
+    RowBox[{"4", " ", 
+     SuperscriptBox["a", "2"], " ", 
+     SuperscriptBox["arctan", "9"], " ", 
+     SuperscriptBox["b", "7"], " ", "g", " ", "n"}], "-", 
+    RowBox[{
+     SuperscriptBox["arctan", "9"], " ", 
+     SuperscriptBox["b", "9"], " ", "g", " ", "n"}], "+", "v"}]}], "&&", 
+  RowBox[{
+   RowBox[{
+    SuperscriptBox["a", "2"], "+", 
+    SuperscriptBox["b", "2"]}], "\[NotEqual]", "0"}]}]], "Output",
+ CellChangeTimes->{{3.732880485302213*^9, 3.7328805062278957`*^9}}]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"eq15", " ", "=", " ", 
+   RowBox[{"Solve", "[", 
+    RowBox[{
+     RowBox[{"FullSimplify", "[", 
+      RowBox[{"eq11", ",", " ", "eq14"}], "]"}], ",", 
+     RowBox[{"{", "a", "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"eq16", " ", "=", " ", 
+   RowBox[{"Solve", "[", 
+    RowBox[{
+     RowBox[{"FullSimplify", "[", 
+      RowBox[{"eq11", ",", " ", "eq14"}], "]"}], ",", 
+     RowBox[{"{", "b", "}"}]}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.7328771614270525`*^9, 3.732877228965824*^9}, {
+  3.7328772608047776`*^9, 3.7328772610519524`*^9}, {3.732877367471265*^9, 
+  3.7328773695668335`*^9}, {3.732877425870945*^9, 3.7328774406835403`*^9}, {
+  3.7328778764357333`*^9, 3.732877899720137*^9}, {3.7328780586959753`*^9, 
+  3.732878060045429*^9}, {3.7328781383418813`*^9, 3.732878138548027*^9}, {
+  3.7328784260153923`*^9, 3.732878427342375*^9}, {3.7328784781750135`*^9, 
+  3.732878523227703*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"eq17", " ", "=", " ", 
+  RowBox[{"Eliminate", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"eq11", ",", " ", "eq14"}], "}"}], ",", 
+    RowBox[{"{", "b", "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.7328785375953627`*^9, 3.732878565506504*^9}, {
+  3.7328786061572833`*^9, 3.7328786103317347`*^9}}],
+
+Cell[BoxData["$Aborted"], "Output",
+ CellChangeTimes->{3.732878898108244*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"eq18", " ", "=", " ", 
+  RowBox[{"Solve", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"eq11", ",", "eq14"}], "}"}], ",", 
+    RowBox[{"{", "a", "}"}], ",", 
+    RowBox[{"{", "b", "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.732878916310541*^9, 3.7328789882254148`*^9}, {
+  3.7328791250570297`*^9, 3.7328791449621305`*^9}, {3.7328803653668756`*^9, 
+  3.7328803654981065`*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  TagBox[
+   FrameBox[GridBox[{
+      {
+       ItemBox[
+        TagBox[
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"a", "\[Rule]", 
+             RowBox[{"Root", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  SuperscriptBox["c", "9"], " ", 
+                  SuperscriptBox["g", "8"]}], "-", 
+                 RowBox[{"9", " ", 
+                  SuperscriptBox["c", "8"], " ", 
+                  SuperscriptBox["g", "8"], " ", "u"}], "+", 
+                 TemplateBox[{"14"},
+                  "OutputSizeLimit`Skeleton",
+                  DisplayFunction->(FrameBox[
+                    
+                    RowBox[{
+                    "\" \[CenterEllipsis]\"", #, "\"\[CenterEllipsis] \""}], 
+                    Background -> GrayLevel[0.75], 
+                    BaseStyle -> {
+                    "Deploy", FontColor -> GrayLevel[1], FontSize -> Smaller, 
+                    ShowStringCharacters -> False}, BaselinePosition -> 
+                    Baseline, ContentPadding -> False, 
+                    FrameMargins -> {{1, 1}, {1, 2}}, FrameStyle -> None, 
+                    RoundingRadius -> 7]& )], "+", 
+                 TemplateBox[{"1"},
+                  "OutputSizeLimit`Skeleton",
+                  DisplayFunction->(FrameBox[
+                    
+                    RowBox[{
+                    "\" \[CenterEllipsis]\"", #, "\"\[CenterEllipsis] \""}], 
+                    Background -> GrayLevel[0.75], 
+                    BaseStyle -> {
+                    "Deploy", FontColor -> GrayLevel[1], FontSize -> Smaller, 
+                    ShowStringCharacters -> False}, BaselinePosition -> 
+                    Baseline, ContentPadding -> False, 
+                    FrameMargins -> {{1, 1}, {1, 2}}, FrameStyle -> None, 
+                    RoundingRadius -> 7]& )], "+", 
+                 RowBox[{
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{
+                    SuperscriptBox["arctan", "7"], " ", 
+                    SuperscriptBox["c", "2"], " ", 
+                    SuperscriptBox["d", "6"], " ", 
+                    SuperscriptBox["f", "7"], " ", 
+                    SuperscriptBox["g", "2"], " ", "m"}], "+", 
+                    TemplateBox[{"110"},
+                    "OutputSizeLimit`Skeleton",
+                    DisplayFunction->(FrameBox[
+                    
+                    RowBox[{
+                    "\" \[CenterEllipsis]\"", #, "\"\[CenterEllipsis] \""}], 
+                    Background -> GrayLevel[0.75], 
+                    BaseStyle -> {
+                    "Deploy", FontColor -> GrayLevel[1], FontSize -> Smaller, 
+                    ShowStringCharacters -> False}, BaselinePosition -> 
+                    Baseline, ContentPadding -> False, 
+                    FrameMargins -> {{1, 1}, {1, 2}}, FrameStyle -> None, 
+                    RoundingRadius -> 7]& )], "+", 
+                    RowBox[{
+                    SuperscriptBox["arctan", "7"], " ", 
+                    SuperscriptBox["f", "7"], " ", 
+                    SuperscriptBox["g", "2"], " ", "m", " ", 
+                    SuperscriptBox["u", "2"], " ", 
+                    SuperscriptBox["v", "6"]}]}], ")"}], " ", 
+                  SuperscriptBox["#1", "7"]}], "+", 
+                 RowBox[{
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["d", "8"], " ", 
+                    SuperscriptBox["f", "9"], " ", "n"}], "+", 
+                    RowBox[{"4", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "2"], " ", 
+                    SuperscriptBox["d", "6"], " ", 
+                    SuperscriptBox["f", "7"], " ", 
+                    SuperscriptBox["g", "2"], " ", "n"}], "+", 
+                    RowBox[{"6", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "4"], " ", 
+                    SuperscriptBox["d", "4"], " ", 
+                    SuperscriptBox["f", "5"], " ", 
+                    SuperscriptBox["g", "4"], " ", "n"}], "+", 
+                    RowBox[{"4", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "6"], " ", 
+                    SuperscriptBox["d", "2"], " ", 
+                    SuperscriptBox["f", "3"], " ", 
+                    SuperscriptBox["g", "6"], " ", "n"}], "+", 
+                    RowBox[{
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "8"], " ", "f", " ", 
+                    SuperscriptBox["g", "8"], " ", "n"}], "-", 
+                    RowBox[{"8", " ", 
+                    SuperscriptBox["arctan", "9"], " ", "c", " ", 
+                    SuperscriptBox["d", "6"], " ", 
+                    SuperscriptBox["f", "7"], " ", 
+                    SuperscriptBox["g", "2"], " ", "n", " ", "u"}], "-", 
+                    RowBox[{"24", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "3"], " ", 
+                    SuperscriptBox["d", "4"], " ", 
+                    SuperscriptBox["f", "5"], " ", 
+                    SuperscriptBox["g", "4"], " ", "n", " ", "u"}], "-", 
+                    RowBox[{"24", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "5"], " ", 
+                    SuperscriptBox["d", "2"], " ", 
+                    SuperscriptBox["f", "3"], " ", 
+                    SuperscriptBox["g", "6"], " ", "n", " ", "u"}], "-", 
+                    RowBox[{"8", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "7"], " ", "f", " ", 
+                    SuperscriptBox["g", "8"], " ", "n", " ", "u"}], "+", 
+                    RowBox[{"4", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["d", "6"], " ", 
+                    SuperscriptBox["f", "7"], " ", 
+                    SuperscriptBox["g", "2"], " ", "n", " ", 
+                    SuperscriptBox["u", "2"]}], "+", 
+                    RowBox[{"36", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "2"], " ", 
+                    SuperscriptBox["d", "4"], " ", 
+                    SuperscriptBox["f", "5"], " ", 
+                    SuperscriptBox["g", "4"], " ", "n", " ", 
+                    SuperscriptBox["u", "2"]}], "+", 
+                    RowBox[{"60", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "4"], " ", 
+                    SuperscriptBox["d", "2"], " ", 
+                    SuperscriptBox["f", "3"], " ", 
+                    SuperscriptBox["g", "6"], " ", "n", " ", 
+                    SuperscriptBox["u", "2"]}], "+", 
+                    RowBox[{"28", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "6"], " ", "f", " ", 
+                    SuperscriptBox["g", "8"], " ", "n", " ", 
+                    SuperscriptBox["u", "2"]}], "-", 
+                    RowBox[{"24", " ", 
+                    SuperscriptBox["arctan", "9"], " ", "c", " ", 
+                    SuperscriptBox["d", "4"], " ", 
+                    SuperscriptBox["f", "5"], " ", 
+                    SuperscriptBox["g", "4"], " ", "n", " ", 
+                    SuperscriptBox["u", "3"]}], "-", 
+                    RowBox[{"80", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "3"], " ", 
+                    SuperscriptBox["d", "2"], " ", 
+                    SuperscriptBox["f", "3"], " ", 
+                    SuperscriptBox["g", "6"], " ", "n", " ", 
+                    SuperscriptBox["u", "3"]}], "-", 
+                    RowBox[{"56", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "5"], " ", "f", " ", 
+                    SuperscriptBox["g", "8"], " ", "n", " ", 
+                    SuperscriptBox["u", "3"]}], "+", 
+                    RowBox[{"6", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["d", "4"], " ", 
+                    SuperscriptBox["f", "5"], " ", 
+                    SuperscriptBox["g", "4"], " ", "n", " ", 
+                    SuperscriptBox["u", "4"]}], "+", 
+                    RowBox[{"60", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "2"], " ", 
+                    SuperscriptBox["d", "2"], " ", 
+                    SuperscriptBox["f", "3"], " ", 
+                    SuperscriptBox["g", "6"], " ", "n", " ", 
+                    SuperscriptBox["u", "4"]}], "+", 
+                    RowBox[{"70", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "4"], " ", "f", " ", 
+                    SuperscriptBox["g", "8"], " ", "n", " ", 
+                    SuperscriptBox["u", "4"]}], "-", 
+                    RowBox[{"24", " ", 
+                    SuperscriptBox["arctan", "9"], " ", "c", " ", 
+                    SuperscriptBox["d", "2"], " ", 
+                    SuperscriptBox["f", "3"], " ", 
+                    SuperscriptBox["g", "6"], " ", "n", " ", 
+                    SuperscriptBox["u", "5"]}], "-", 
+                    RowBox[{"56", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "3"], " ", "f", " ", 
+                    SuperscriptBox["g", "8"], " ", "n", " ", 
+                    SuperscriptBox["u", "5"]}], "+", 
+                    RowBox[{"4", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["d", "2"], " ", 
+                    SuperscriptBox["f", "3"], " ", 
+                    SuperscriptBox["g", "6"], " ", "n", " ", 
+                    SuperscriptBox["u", "6"]}], "+", 
+                    RowBox[{"28", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "2"], " ", "f", " ", 
+                    SuperscriptBox["g", "8"], " ", "n", " ", 
+                    SuperscriptBox["u", "6"]}], "-", 
+                    RowBox[{"8", " ", 
+                    SuperscriptBox["arctan", "9"], " ", "c", " ", "f", " ", 
+                    SuperscriptBox["g", "8"], " ", "n", " ", 
+                    SuperscriptBox["u", "7"]}], "+", 
+                    TemplateBox[{"61"},
+                    "OutputSizeLimit`Skeleton",
+                    DisplayFunction->(FrameBox[
+                    
+                    RowBox[{
+                    "\" \[CenterEllipsis]\"", #, "\"\[CenterEllipsis] \""}], 
+                    Background -> GrayLevel[0.75], 
+                    BaseStyle -> {
+                    "Deploy", FontColor -> GrayLevel[1], FontSize -> Smaller, 
+                    ShowStringCharacters -> False}, BaselinePosition -> 
+                    Baseline, ContentPadding -> False, 
+                    FrameMargins -> {{1, 1}, {1, 2}}, FrameStyle -> None, 
+                    RoundingRadius -> 7]& )], "+", 
+                    RowBox[{"96", " ", 
+                    SuperscriptBox["arctan", "9"], " ", "c", " ", "d", " ", 
+                    SuperscriptBox["f", "5"], " ", 
+                    SuperscriptBox["g", "4"], " ", "n", " ", 
+                    SuperscriptBox["u", "3"], " ", 
+                    SuperscriptBox["v", "3"]}], "-", 
+                    RowBox[{"24", " ", 
+                    SuperscriptBox["arctan", "9"], " ", "d", " ", 
+                    SuperscriptBox["f", "5"], " ", 
+                    SuperscriptBox["g", "4"], " ", "n", " ", 
+                    SuperscriptBox["u", "4"], " ", 
+                    SuperscriptBox["v", "3"]}], "+", 
+                    RowBox[{"70", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["d", "4"], " ", 
+                    SuperscriptBox["f", "9"], " ", "n", " ", 
+                    SuperscriptBox["v", "4"]}], "+", 
+                    RowBox[{"60", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "2"], " ", 
+                    SuperscriptBox["d", "2"], " ", 
+                    SuperscriptBox["f", "7"], " ", 
+                    SuperscriptBox["g", "2"], " ", "n", " ", 
+                    SuperscriptBox["v", "4"]}], "+", 
+                    RowBox[{"6", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "4"], " ", 
+                    SuperscriptBox["f", "5"], " ", 
+                    SuperscriptBox["g", "4"], " ", "n", " ", 
+                    SuperscriptBox["v", "4"]}], "-", 
+                    RowBox[{"120", " ", 
+                    SuperscriptBox["arctan", "9"], " ", "c", " ", 
+                    SuperscriptBox["d", "2"], " ", 
+                    SuperscriptBox["f", "7"], " ", 
+                    SuperscriptBox["g", "2"], " ", "n", " ", "u", " ", 
+                    SuperscriptBox["v", "4"]}], "-", 
+                    RowBox[{"24", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "3"], " ", 
+                    SuperscriptBox["f", "5"], " ", 
+                    SuperscriptBox["g", "4"], " ", "n", " ", "u", " ", 
+                    SuperscriptBox["v", "4"]}], "+", 
+                    RowBox[{"60", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["d", "2"], " ", 
+                    SuperscriptBox["f", "7"], " ", 
+                    SuperscriptBox["g", "2"], " ", "n", " ", 
+                    SuperscriptBox["u", "2"], " ", 
+                    SuperscriptBox["v", "4"]}], "+", 
+                    RowBox[{"36", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "2"], " ", 
+                    SuperscriptBox["f", "5"], " ", 
+                    SuperscriptBox["g", "4"], " ", "n", " ", 
+                    SuperscriptBox["u", "2"], " ", 
+                    SuperscriptBox["v", "4"]}], "-", 
+                    RowBox[{"24", " ", 
+                    SuperscriptBox["arctan", "9"], " ", "c", " ", 
+                    SuperscriptBox["f", "5"], " ", 
+                    SuperscriptBox["g", "4"], " ", "n", " ", 
+                    SuperscriptBox["u", "3"], " ", 
+                    SuperscriptBox["v", "4"]}], "+", 
+                    RowBox[{"6", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["f", "5"], " ", 
+                    SuperscriptBox["g", "4"], " ", "n", " ", 
+                    SuperscriptBox["u", "4"], " ", 
+                    SuperscriptBox["v", "4"]}], "-", 
+                    RowBox[{"56", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["d", "3"], " ", 
+                    SuperscriptBox["f", "9"], " ", "n", " ", 
+                    SuperscriptBox["v", "5"]}], "-", 
+                    RowBox[{"24", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "2"], " ", "d", " ", 
+                    SuperscriptBox["f", "7"], " ", 
+                    SuperscriptBox["g", "2"], " ", "n", " ", 
+                    SuperscriptBox["v", "5"]}], "+", 
+                    RowBox[{"48", " ", 
+                    SuperscriptBox["arctan", "9"], " ", "c", " ", "d", " ", 
+                    SuperscriptBox["f", "7"], " ", 
+                    SuperscriptBox["g", "2"], " ", "n", " ", "u", " ", 
+                    SuperscriptBox["v", "5"]}], "-", 
+                    RowBox[{"24", " ", 
+                    SuperscriptBox["arctan", "9"], " ", "d", " ", 
+                    SuperscriptBox["f", "7"], " ", 
+                    SuperscriptBox["g", "2"], " ", "n", " ", 
+                    SuperscriptBox["u", "2"], " ", 
+                    SuperscriptBox["v", "5"]}], "+", 
+                    RowBox[{"28", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["d", "2"], " ", 
+                    SuperscriptBox["f", "9"], " ", "n", " ", 
+                    SuperscriptBox["v", "6"]}], "+", 
+                    RowBox[{"4", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["c", "2"], " ", 
+                    SuperscriptBox["f", "7"], " ", 
+                    SuperscriptBox["g", "2"], " ", "n", " ", 
+                    SuperscriptBox["v", "6"]}], "-", 
+                    RowBox[{"8", " ", 
+                    SuperscriptBox["arctan", "9"], " ", "c", " ", 
+                    SuperscriptBox["f", "7"], " ", 
+                    SuperscriptBox["g", "2"], " ", "n", " ", "u", " ", 
+                    SuperscriptBox["v", "6"]}], "+", 
+                    RowBox[{"4", " ", 
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["f", "7"], " ", 
+                    SuperscriptBox["g", "2"], " ", "n", " ", 
+                    SuperscriptBox["u", "2"], " ", 
+                    SuperscriptBox["v", "6"]}], "-", 
+                    RowBox[{"8", " ", 
+                    SuperscriptBox["arctan", "9"], " ", "d", " ", 
+                    SuperscriptBox["f", "9"], " ", "n", " ", 
+                    SuperscriptBox["v", "7"]}], "+", 
+                    RowBox[{
+                    SuperscriptBox["arctan", "9"], " ", 
+                    SuperscriptBox["f", "9"], " ", "n", " ", 
+                    SuperscriptBox["v", "8"]}]}], ")"}], " ", 
+                  SuperscriptBox["#1", "9"]}]}], "&"}], ",", "1"}], "]"}]}], 
+            "}"}], ",", 
+           TemplateBox[{"7"},
+            "OutputSizeLimit`Skeleton",
+            DisplayFunction->(FrameBox[
+              RowBox[{"\" \[CenterEllipsis]\"", #, "\"\[CenterEllipsis] \""}],
+               Background -> GrayLevel[0.75], 
+              BaseStyle -> {
+               "Deploy", FontColor -> GrayLevel[1], FontSize -> Smaller, 
+                ShowStringCharacters -> False}, BaselinePosition -> Baseline, 
+              ContentPadding -> False, FrameMargins -> {{1, 1}, {1, 2}}, 
+              FrameStyle -> None, RoundingRadius -> 7]& )], ",", 
+           RowBox[{"{", 
+            RowBox[{"a", "\[Rule]", 
+             RowBox[{"Root", "[", 
+              RowBox[{
+               RowBox[{
+                TemplateBox[{"1"},
+                 "OutputSizeLimit`Skeleton",
+                 DisplayFunction->(FrameBox[
+                   
+                   RowBox[{
+                    "\" \[CenterEllipsis]\"", #, "\"\[CenterEllipsis] \""}], 
+                   Background -> GrayLevel[0.75], 
+                   BaseStyle -> {
+                    "Deploy", FontColor -> GrayLevel[1], FontSize -> Smaller, 
+                    ShowStringCharacters -> False}, BaselinePosition -> 
+                   Baseline, ContentPadding -> False, 
+                   FrameMargins -> {{1, 1}, {1, 2}}, FrameStyle -> None, 
+                   RoundingRadius -> 7]& )], "&"}], ",", "9"}], "]"}]}], 
+            "}"}]}], "}"}],
+         Short[#, 5]& ],
+        BaseStyle->{Deployed -> False},
+        StripOnInput->False]},
+      {GridBox[{
+         {
+          TagBox[
+           TooltipBox[
+            StyleBox[
+             StyleBox[
+              DynamicBox[ToBoxes[
+                FEPrivate`FrontEndResource[
+                "FEStrings", "sizeBriefExplanation"], StandardForm],
+               ImageSizeCache->{65., {3., 9.}}],
+              StripOnInput->False,
+              DynamicUpdating->True], "SuggestionsBarCategory",
+             StripOnInput->False],
+            StyleBox[
+             DynamicBox[
+              ToBoxes[
+               FEPrivate`FrontEndResource["FEStrings", "sizeExplanation"], 
+               StandardForm]], DynamicUpdating -> True, StripOnInput -> 
+             False]],
+           Annotation[#, 
+            Style[
+             Dynamic[
+              FEPrivate`FrontEndResource["FEStrings", "sizeExplanation"]], 
+             DynamicUpdating -> True], "Tooltip"]& ], 
+          ButtonBox[
+           PaneSelectorBox[{False->
+            StyleBox[
+             StyleBox[
+              DynamicBox[ToBoxes[
+                FEPrivate`FrontEndResource["FEStrings", "sizeShowLess"], 
+                StandardForm],
+               ImageSizeCache->{52., {1., 9.}}],
+              StripOnInput->False,
+              DynamicUpdating->True], "SuggestionsBarControl",
+             StripOnInput->False], True->
+            StyleBox[
+             StyleBox[
+              DynamicBox[ToBoxes[
+                FEPrivate`FrontEndResource["FEStrings", "sizeShowLess"], 
+                StandardForm]],
+              StripOnInput->False,
+              DynamicUpdating->True], "SuggestionsBarControlActive",
+             StripOnInput->False]}, Dynamic[
+             CurrentValue["MouseOver"]],
+            Alignment->Center,
+            FrameMargins->0,
+            ImageSize->{Automatic, 25}],
+           Appearance->None,
+           
+           ButtonFunction:>OutputSizeLimit`ButtonFunction[
+            OutputSizeLimit`Defer, 323, 32619396636205766516, 5/2],
+           Enabled->True,
+           Evaluator->Automatic,
+           Method->"Queued"], 
+          ButtonBox[
+           PaneSelectorBox[{False->
+            StyleBox[
+             StyleBox[
+              DynamicBox[ToBoxes[
+                FEPrivate`FrontEndResource["FEStrings", "sizeShowMore"], 
+                StandardForm],
+               ImageSizeCache->{62., {1., 9.}}],
+              StripOnInput->False,
+              DynamicUpdating->True], "SuggestionsBarControl",
+             StripOnInput->False], True->
+            StyleBox[
+             StyleBox[
+              DynamicBox[ToBoxes[
+                FEPrivate`FrontEndResource["FEStrings", "sizeShowMore"], 
+                StandardForm],
+               ImageSizeCache->{62., {1., 9.}}],
+              StripOnInput->False,
+              DynamicUpdating->True], "SuggestionsBarControlActive",
+             StripOnInput->False]}, Dynamic[
+             CurrentValue["MouseOver"]],
+            Alignment->Center,
+            FrameMargins->0,
+            ImageSize->{Automatic, 25}],
+           Appearance->None,
+           
+           ButtonFunction:>OutputSizeLimit`ButtonFunction[
+            OutputSizeLimit`Defer, 323, 32619396636205766516, 5 2],
+           Enabled->True,
+           Evaluator->Automatic,
+           Method->"Queued"], 
+          ButtonBox[
+           PaneSelectorBox[{False->
+            StyleBox[
+             StyleBox[
+              DynamicBox[ToBoxes[
+                FEPrivate`FrontEndResource["FEStrings", "sizeShowAll"], 
+                StandardForm],
+               ImageSizeCache->{44., {1., 9.}}],
+              StripOnInput->False,
+              DynamicUpdating->True], "SuggestionsBarControl",
+             StripOnInput->False], True->
+            StyleBox[
+             StyleBox[
+              DynamicBox[ToBoxes[
+                FEPrivate`FrontEndResource["FEStrings", "sizeShowAll"], 
+                StandardForm]],
+              StripOnInput->False,
+              DynamicUpdating->True], "SuggestionsBarControlActive",
+             StripOnInput->False]}, Dynamic[
+             CurrentValue["MouseOver"]],
+            Alignment->Center,
+            FrameMargins->0,
+            ImageSize->{Automatic, 25}],
+           Appearance->None,
+           
+           ButtonFunction:>OutputSizeLimit`ButtonFunction[
+            OutputSizeLimit`Defer, 323, 32619396636205766516, Infinity],
+           Enabled->True,
+           Evaluator->Automatic,
+           Method->"Queued"], 
+          ButtonBox[
+           PaneSelectorBox[{False->
+            StyleBox[
+             StyleBox[
+              DynamicBox[ToBoxes[
+                FEPrivate`FrontEndResource["FEStrings", "sizeChangeLimit"], 
+                StandardForm],
+               ImageSizeCache->{78., {1., 9.}}],
+              StripOnInput->False,
+              DynamicUpdating->True], "SuggestionsBarControl",
+             StripOnInput->False], True->
+            StyleBox[
+             StyleBox[
+              DynamicBox[ToBoxes[
+                FEPrivate`FrontEndResource["FEStrings", "sizeChangeLimit"], 
+                StandardForm]],
+              StripOnInput->False,
+              DynamicUpdating->True], "SuggestionsBarControlActive",
+             StripOnInput->False]}, Dynamic[
+             CurrentValue["MouseOver"]],
+            Alignment->Center,
+            FrameMargins->0,
+            ImageSize->{Automatic, 25}],
+           Appearance->None,
+           ButtonFunction:>FrontEndExecute[{
+              FrontEnd`SetOptions[
+              FrontEnd`$FrontEnd, 
+               FrontEnd`PreferencesSettings -> {"Page" -> "Evaluation"}], 
+              FrontEnd`FrontEndToken["PreferencesDialog"]}],
+           Evaluator->None,
+           Method->"Preemptive"]}
+        },
+        AutoDelete->False,
+        FrameStyle->GrayLevel[0.85],
+        GridBoxDividers->{"Columns" -> {False, {True}}},
+        GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+        GridBoxSpacings->{"Columns" -> {{2}}}]}
+     },
+     DefaultBaseStyle->"Column",
+     GridBoxAlignment->{
+      "Columns" -> {{Left}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+       "RowsIndexed" -> {}},
+     GridBoxDividers->{
+      "Columns" -> {{False}}, "ColumnsIndexed" -> {}, "Rows" -> {{False}}, 
+       "RowsIndexed" -> {}},
+     GridBoxItemSize->{
+      "Columns" -> {{Automatic}}, "ColumnsIndexed" -> {}, "Rows" -> {{1.}}, 
+       "RowsIndexed" -> {}},
+     GridBoxSpacings->{"Columns" -> {
+         Offset[0.27999999999999997`], {
+          Offset[0.5599999999999999]}, 
+         Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+         Offset[0.2], 
+         Offset[1.2], {
+          Offset[0.4]}, 
+         Offset[0.2]}, "RowsIndexed" -> {}}],
+    Background->RGBColor[0.9657, 0.9753, 0.9802],
+    FrameMargins->{{12, 12}, {0, 15}},
+    FrameStyle->GrayLevel[0.85],
+    RoundingRadius->5,
+    StripOnInput->False],
+   Deploy,
+   DefaultBaseStyle->"Deploy"],
+  Out[323]]], "Output",
+ CellChangeTimes->{3.732880554607205*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"eq19", " ", "=", " ", 
+  RowBox[{"Solve", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"eq11", ",", "eq14"}], "}"}], ",", 
+    RowBox[{"{", "v", "}"}], ",", 
+    RowBox[{"{", "a", "}"}]}], "]"}]}]], "Input"],
+
+Cell[BoxData["eq18"], "Input",
+ CellChangeTimes->{{3.732879970022998*^9, 3.732879974125145*^9}}]
+},
+WindowSize->{841, 833},
+WindowMargins->{{Automatic, 394}, {Automatic, 39}},
+FrontEndVersion->"11.0 for Microsoft Windows (64-bit) (September 21, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 1222, 22, 88, "Input"],
+Cell[1783, 44, 2152, 62, 145, "Input"],
+Cell[CellGroupData[{
+Cell[3960, 110, 1788, 52, 183, "Input"],
+Cell[5751, 164, 2259, 58, 69, "Output"],
+Cell[8013, 224, 2261, 58, 69, "Output"]
+}, Open  ]],
+Cell[10289, 285, 963, 21, 50, "Input"],
+Cell[CellGroupData[{
+Cell[11277, 310, 330, 8, 30, "Input"],
+Cell[11610, 320, 77, 1, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11724, 326, 409, 10, 30, "Input"],
+Cell[12136, 338, 26458, 559, 380, "Output"]
+}, Open  ]],
+Cell[38609, 900, 235, 7, 30, "Input"],
+Cell[38847, 909, 96, 1, 30, "Input"]
+}
+]
+*)
+
