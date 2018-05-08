@@ -7,3 +7,5 @@ python exampleCalib.py -vb --folder=newCalib --startFrame=1 --subFrames=10 --qui
 python exampleCalib.py -vb --folder=newSmolCalib --startFrame=1 --subFrames=10 --quiet --write --crop --mask --rotate --savevid --resize
 
 python exampleCalib.py -vb --folder=bigCalib --startFrame=30 --subFrames=10 --quiet --write --crop --rotate --savevid --resize --pseudoSmall --images --example --fisheye
+
+python exampleCalib.py -v --folder=redBigFlight --startFrame=0 --subFrames=1 --quiet --crop --rotate --savevid --resize --images --fisheye --mask --saveTime
