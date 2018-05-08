@@ -30,14 +30,18 @@ def main():
   mCap = getMocCaps(mocPos, 0.001)
   mocPos = smoothData(mocPos, 3)
 
-  # oCap = [202, 1315]    #for "BigFlight"
+
+  oCap = [202, 1315]    #for "BigFlight"
+
+  mCap[1] = mCap[1]-300
+  offset = mocTime[mCap[0]]-orbTime[oCap[0]]
 
   mocPos  = mocPos[:,mCap[0]:mCap[1]]
   mocTime = mocTime[mCap[0]:mCap[1]]
   mocRot  = mocRot[:,mCap[0]:mCap[1]]
 
   orbPos, mocRange = interpOrbData(mocPos, orbPos,
-                   mocTime, keyTime)
+                   mocTime, keyTime, offset)
 
   mocPos  = mocPos[:,mocRange[0]:mocRange[1]]
   mocTime = mocTime[mocRange[0]:mocRange[1]]
@@ -68,10 +72,12 @@ def main():
   newOrb = np.dot(R,orbPos).T+t 
 
   getErrors(x, newOrb, mocPos.T)
+  writeToFile(options, x, newOrb, mocPos.T)
 
   # plot3D(orbPos,1,"OrbPath")
   # plot3D(mocPos,3,"SmoothedMocap")
-  doublePlot3D(newOrb.T,"Orb",mocPos,"Mocap",4,"Double_Plot")
+  doublePlot3D(newOrb.T,"Orb",mocPos,"Mocap",4,"Double_Plot", options)
+  # doublePlot3D(orbPos,"Orb",mocPos,"Mocap",5,"Double_Plots", options)
 
   input("Press [enter] to continue.")
   print("\nTotal Time:\t" + str(round(time.time()-start,3)))
@@ -183,7 +189,7 @@ def getMocCaps(position, threshold):
       break
 
   return [moStart, moLast]
-  
+
 
 def getDistance(position):
   for i,pos in enumerate(position.T):
@@ -219,10 +225,11 @@ def matchFPS(mocPos, orbPos, mocTime, orbTime):
   print("orb:", t)
   return mocPos
 
-def interpOrbData(mocPos, orbPos, mocTime, keyTime):
+def interpOrbData(mocPos, orbPos, mocTime, keyTime, offset):
   t = 0
   newPos = []
-  mocTime[:] = np.array(mocTime) - keyTime[0]
+  mocTime[:] = np.array(mocTime) - offset
+  print("MOC 0: ", mocTime[0])
   keyTime[:] = np.array(keyTime)  
   i=0
   frogger = True
@@ -252,13 +259,14 @@ def leastSquareError(x, oPos, mPos):
   error = np.linalg.norm((np.dot(R,oPos.T)+t)- mPos.T)
   return error
 
+
 def calcMatrices(oPos, mPos):
   result = minimize(
       fun=leastSquareError,
       x0=np.ones(13),
       args=(oPos, mPos),
-      # method='CG',
-      method='BFGS',
+      method='CG',
+      # method='BFGS',
       options={
           'maxiter': 50
       })
@@ -273,11 +281,31 @@ def calcMatrices(oPos, mPos):
   print(R, t)
   return R, t, x
 
+def rmse(predictions, targets):
+  return np.sqrt(((predictions - targets) ** 2).mean())
+
+def mse(predictions, targets):
+    return ((predictions - targets) ** 2).mean()
+
+def totalError(predictions, targets):
+    return (np.abs(predictions - targets)).sum()
+
+def getLength(pos):
+  distance = 0
+  for i in range(1, pos.shape[0]):
+    distance += np.sqrt((pos[i,0]-pos[i-1,0])**2 +
+                 (pos[i,1]-pos[i-1,1])**2 +
+                 (pos[i,2]-pos[i-1,2])**2)
+  return distance
+
 def getErrors(x, oPos, mPos):
   lse = leastSquareError(x, oPos, mPos)
-  print("Total:\t", lse)
-  print("RMSE:   ", lse/np.sqrt(oPos.shape[0]), oPos.shape[0])
-
+  print("Total:\t\t", totalError(oPos, mPos))
+  print("Euclid:\t\t", lse)
+  print("Euclid/n:\t", lse/oPos.shape[0])
+  print("RMSE:\t\t", rmse(oPos, mPos))
+  print("MSE:\t\t", mse(oPos, mPos))
+  print("Length: ", getLength(mPos))
 
 def printSample():
   sample = np.array([[1,1,0],[0.5,0.5,0]])
@@ -321,11 +349,11 @@ def plot3D(pos,figNum,name):
   plt.show(block = False)  
 
 
-def doublePlot3D(pos,name1,pos2,name2,figNum,name):
+def doublePlot3D(pos,name1,pos2,name2,figNum,name, options):
   fig = plt.figure(name)
   ax = fig.add_subplot(111, projection='3d')
-  line1 = ax.plot(pos[0],pos[1], pos[2], color='b', label=name1)
-  line2 = ax.plot(pos2[0],pos2[1], pos2[2], color='c', label=name2)
+  line1 = ax.plot(pos[0],pos[1], pos[2], color='c', label=name1)
+  line2 = ax.plot(pos2[0],pos2[1], pos2[2], color='black', label=name2)
   plt.xlabel('x')
   plt.ylabel('y')
   # plt.zlabel('z')
@@ -336,12 +364,26 @@ def doublePlot3D(pos,name1,pos2,name2,figNum,name):
   ax.legend()
 
   for i in range(pos.shape[1]):
-    if np.mod(i,200):
+    if np.mod(i,50):
       continue
-    ax.scatter(pos[0,i], pos[1,i], pos[2,i], color="r", s=10)
-    ax.scatter(pos2[0,i], pos2[1,i], pos2[2,i], color="r", s=10)
-
+    ax.scatter(pos[0,i], pos[1,i], pos[2,i], color="c", s=1)
+    ax.scatter(pos2[0,i], pos2[1,i], pos2[2,i], color="black", s=1)
+    ax.plot([pos[0,i],pos2[0,i]], 
+            [pos[1,i],pos2[1,i]], 
+            [pos[2,i],pos2[2,i]], color="r")
+  plt.savefig(options.folder+"/analyze/"+name+".png")
   plt.show(block = False)  
+
+
+def writeToFile(options, x,oPos, mPos):
+  lse = leastSquareError(x, oPos, mPos)
+  with open(options.folder+"/analyze/errorCalculations.txt", "w") as f: 
+    f.write("Total:\t\t{0:.3f}\n".format(totalError(oPos, mPos)))
+    f.write("Euclid:\t\t{0:.3f}\n".format(lse))
+    f.write("Euclid_avg:\t{0:.3f}\n".format(lse/oPos.shape[0]))
+    f.write("RMSE:\t\t{0:.4f}\n".format(rmse(oPos, mPos)))
+    f.write("MSE:\t\t{0:.5f}\n".format(mse(oPos, mPos)))
+    f.write("Length:\t\t{0:.3f}".format(getLength(mPos)))
 
 
 if __name__ == "__main__":
