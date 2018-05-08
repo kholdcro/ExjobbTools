@@ -76,7 +76,13 @@ def main():
 
   # plot3D(orbPos,1,"OrbPath")
   # plot3D(mocPos,3,"SmoothedMocap")
-  doublePlot3D(newOrb.T,"Orb",mocPos,"Mocap",4,"Double_Plot", options)
+  doublePlot([newOrb[:,0].T,newOrb[:,1].T],"Orb", [mocPos[0],mocPos[1]],
+              "Mocap",3,"x vs y", options, xlabel='x', ylabel='y')
+  doublePlot([newOrb[:,0].T,newOrb[:,2].T],"Orb", [mocPos[0],mocPos[2]],
+              "Mocap",4,"x vs z", options, xlabel='x', ylabel='z')
+  doublePlot([newOrb[:,1].T,newOrb[:,2].T],"Orb", [mocPos[1],mocPos[2]],
+              "Mocap",5,"y vs z", options, xlabel='y', ylabel='z')  
+  doublePlot3D(newOrb.T,"Orb",mocPos,"Mocap",6,"Double_Plot", options)
   # doublePlot3D(orbPos,"Orb",mocPos,"Mocap",5,"Double_Plots", options)
 
   input("Press [enter] to continue.")
@@ -346,6 +352,19 @@ def plot3D(pos,figNum,name):
   plt.grid(True)
   ax.scatter(pos[0,0], pos[1,0], pos[2,0], color="g", s=100)
   ax.scatter(pos[0,-1], pos[1,-1], pos[2,-1], color="r", s=100)
+  plt.show(block = False)  
+
+
+def doublePlot(pos1,name1,pos2,name2,figNum,name, options, xlabel='x', ylabel='y'):
+  fig = plt.figure(figNum)
+  ax = fig.gca()
+  line1 = ax.plot(pos1[0],pos1[1], color='c', label=name1)
+  line2 = ax.plot(pos2[0],pos2[1], color='black', label=name2)
+  plt.xlabel(xlabel)
+  plt.ylabel(ylabel)
+  plt.title(name)
+  plt.grid(True)
+  plt.savefig(options.folder+"/analyze/"+name+".png")
   plt.show(block = False)  
 
 
