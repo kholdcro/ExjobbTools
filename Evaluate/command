@@ -1,0 +1,5 @@
+python evaluate_ate_scale.py ../Calibration/redBigFlight/analyze/newMocap.csv newKeyFrame.txt --plot PLERT --verbose --offset 5.68925
+
+python evaluate_ate_scale.py ../Calibration/redBigFlight/analyze/newMocap.csv ../Calibration/redBigFlight/analyze/KeyFrameTrajectory.txt --plot PLERT --verbose --offset -2.452
+
+ python evaluate_ate_scale.py ../Calibration/redBigFlight/analyze/newMocap.csv ../Calibration/redBigFlight/analyze/KeyFrameTrajectory.txt --plot PLERT --verbose --offset -1.7
