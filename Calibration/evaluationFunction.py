@@ -152,7 +152,7 @@ def writeSmoothData(options, mocPos, mocRot, mocTime):
   print(data.shape)
   print(data[0])
   print(len(data[1]))
-  with open('newMocap.csv', 'w') as f:
+  with open(opt.folder+'analyze/newMocap.csv', 'w') as f:
     np.savetxt(f, data.T, fmt='%.5f')
 
 

@@ -4,6 +4,7 @@ import cv2
 assert cv2.__version__[0] == '3', 'The fisheye module requires opencv version >= 3.0.0'
 import glob
 from optparse import OptionParser
+import flattenImages
 
 
 
@@ -65,20 +66,30 @@ def main():
   parser.add_option("--fisheye",
                   action="store_true", dest="fisheye", default=False,
                   help="Use fisheye calibration method")
+  parser.add_option("--flatten",
+                  action="store_true", dest="flatten", default=False,
+                  help="Choose whether or not to flatten the images first")  
+  parser.add_option("--phone",
+                  action="store_true", dest="phone", default=False,
+                  help="Decite whether using phone or not")  
   (options, args) = parser.parse_args()
 
 
   # checkerboard Dimensions
-  # cbDims = (8,6)
+  cbDims = (8,6)
   # squareSize = 0.022
 
-  cbDims = (6,7)
+  # cbDims = (6,7)
   squareSize = 0.12
     
   # termination criteria
   # criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
   criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
-  calibration_flags = cv2.fisheye.CALIB_RECOMPUTE_EXTRINSIC+cv2.fisheye.CALIB_CHECK_COND+cv2.fisheye.CALIB_FIX_SKEW
+  if options.fisheye:
+    calibration_flags = cv2.fisheye.CALIB_RECOMPUTE_EXTRINSIC+cv2.fisheye.CALIB_CHECK_COND+cv2.fisheye.CALIB_FIX_SKEW
+  else:
+    calibration_flags = cv2.CALIB_FIX_ASPECT_RATIO
+
   # calibration_flags = cv2.fisheye.CALIB_RECOMPUTE_EXTRINSIC+cv2.fisheye.CALIB_FIX_SKEW
   # calibration_flags = cv2.fisheye.CALIB_RECOMPUTE_EXTRINSIC+cv2.fisheye.CALIB_FIX_SKEW+cv2.CALIB_USE_INTRINSIC_GUESS
 
@@ -167,6 +178,7 @@ def calibVideo(cbDims, start, criteria, objp, opt):
     length  = int(vidcap.get(cv2.CAP_PROP_FRAME_COUNT))
     fps     = vidcap.get(cv2.CAP_PROP_FPS)
   else:
+    print(opt.folder+'/calib.mp4')
     print "ERROR - video not opened"
     sys.exit()
 
@@ -184,8 +196,11 @@ def calibVideo(cbDims, start, criteria, objp, opt):
   if opt.rotateImage:
     if(opt.rightImage):
       M = cv2.getRotationMatrix2D((twidth/2,theight/2),90,1)
-    else:
+    elif(opt.halfImg):
       M = cv2.getRotationMatrix2D((twidth/2,theight/2),-90,1)
+    else:
+      print((twidth,theight))
+      M = cv2.getRotationMatrix2D((960/2,960/2),-90,1)
 
   # print twidth, width
 
@@ -204,6 +219,11 @@ def calibVideo(cbDims, start, criteria, objp, opt):
     if opt.resize:
       mask = cv2.resize(mask, (theight,twidth))
       mask_inv = cv2.resize(mask_inv, (theight,twidth))
+  if opt.phone:
+    ratio = float(twidth)/float(theight)
+    scaled_width = int(ratio*960)
+    cv2.namedWindow('img', cv2.WINDOW_NORMAL)
+    cv2.resizeWindow('img', 960, 960)
 
   i = 0
   numFrames = 0
@@ -232,8 +252,18 @@ def calibVideo(cbDims, start, criteria, objp, opt):
     if opt.resize:
       img = cv2.resize(img, (twidth, theight))
 
+    if opt.phone:
+      img = cv2.resize(img, (scaled_width, 960))
+
+      width_diff = (scaled_width - 960)/2
+      height_diff = (twidth - 960)/2
+      img = img[0:960, width_diff:scaled_width-width_diff]
+
     if opt.rotateImage:
-      img = cv2.warpAffine(img,M,(theight,twidth))
+      if opt.phone:
+        img = cv2.warpAffine(img,M,(960,960))
+      else:
+        img = cv2.warpAffine(img,M,(theight,twidth))
 
 
     grey = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -259,6 +289,10 @@ def calibVideo(cbDims, start, criteria, objp, opt):
 
     if opt.maskImage:
       grey= cv2.bitwise_and(grey,grey,mask = mask)
+
+    if opt.flatten:
+      mtx, dist = flattenImages.getCameraMatrix()
+      grey = flattenImages.flattenImage(grey, mtx, dist, 1,0)
 
     if opt.saveVid:
       out.write(grey)
@@ -288,6 +322,8 @@ def calibVideo(cbDims, start, criteria, objp, opt):
     with open(opt.folder+"/times.txt", "w") as f:
       for i in range(numFrames):
         f.write("{:e}\n".format(timestep*i))
+
+  print("shape:", grey.shape[::-1])
 
   return objpoints, imgpoints, grey.shape[::-1], checkFound
 

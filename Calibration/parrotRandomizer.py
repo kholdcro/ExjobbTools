@@ -8,10 +8,12 @@ def main():
 				":icecreamparrot:", ":jediparrot:", ":margaritaparrot:", ":parrot:",
 				":parrotwave1:", ":parrotwave2:", ":parrotwave3:", ":parrotwave4:", ":parrotwave5:",
 				":parrotwave6:", ":pirateparrot:", ":pizzaparrot:", ":portalparrot:", ":sithparrot:",
-				":thumbsupparrot:", ":ultrafastparrot:", ":wildparrot:"]
+				":thumbsupparrot:", ":ultrafastparrot:", ":wildparrot:", ":explodingparrot:"]
 
 	parrots = [":congaparrot:", ":congapartyparrot:"]
-	
+	parrots = [":parrot:", ":fastparrot:", ":ultrafastparrot:"]
+	parrots = [":sleepyparrot:"]
+	parrots = [":jediparrot:", ":sithparrot:", ":aussieparrot:", ":explodingparrot:"]
 
 	cmd = ""
 

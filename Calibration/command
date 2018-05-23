@@ -9,3 +9,9 @@ python exampleCalib.py -vb --folder=newSmolCalib --startFrame=1 --subFrames=10 -
 python exampleCalib.py -vb --folder=bigCalib --startFrame=30 --subFrames=10 --quiet --write --crop --rotate --savevid --resize --pseudoSmall --images --example --fisheye
 
 python exampleCalib.py -v --folder=redBigFlight --startFrame=0 --subFrames=1 --quiet --crop --rotate --savevid --resize --images --fisheye --mask --saveTime
+
+python3 evaluationFunction.py --folder=redBigFlight/
+
+python exampleCalib.py -vb --folder=../orbData/flat960Calib/ --startFrame=30 --subFrames=10 --quiet --write --crop --rotate --savevid --resize --images --example --flatten
+
+python flattenImages.py --folder=../orbData/flat960 --crop --rotate --savevid --resize --images --saveTime --mask
